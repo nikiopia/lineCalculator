@@ -12,7 +12,7 @@ float slope, intercept, angle, ZERO_TOLERANCE;
 // Setups
 void setup()
 {
-  size(800,800);
+  size(1000,1000);
   background(0);
   
   textSize(15);
@@ -38,7 +38,9 @@ void setup()
     edgeY[i] = -1;
   }
   
-  image = loadImage("verb.jpg");
+  // IMAGE GOES HERE VVV
+  image = loadImage("20250404_113958_sobel.jpg");
+  // IMAGE GOES HERE ^^^
 }
 
 void calculateLine()
@@ -143,25 +145,27 @@ void keyPressed()
   switch(key)
   {
     case 'w':
-      imageY += min(movementSize / magnificationFactor, MAX_IMAGE_STEP);
+      imageY += movementSize;
       break;
     case 'a':
-      imageX += min(movementSize / magnificationFactor, MAX_IMAGE_STEP);
+      imageX += movementSize;
       break;
     case 's':
-      imageY -= min(movementSize / magnificationFactor, MAX_IMAGE_STEP);
+      imageY -= movementSize;
       break;
     case 'd':
-      imageX -= min(movementSize / magnificationFactor, MAX_IMAGE_STEP);
+      imageX -= movementSize;
       break;
     case 'q':
-      imageX /= 2;
-      imageY /= 2;
+      // TODO: Fix zoom so that it stays centered on current region
+      //       when zooming in / out
+      imageX *= 2;
+      imageY *= 2;
       magnificationFactor *= 2.0;
       break;
     case 'e':
-      imageX *= 2;
-      imageY *= 2;
+      imageX /= 2;
+      imageY /= 2;
       magnificationFactor /= 2.0;
       break;
     case 'c':
@@ -195,8 +199,11 @@ void draw()
   rect(width - buttonWidth, 0, buttonWidth, buttonWidth); // Exit Button
   fill(150);
   rect(width / 2 - 100, height - 70, 200, 70); // Slope/Intercept Data
+  rect(0, height - 50, 100, 50); // XY data
   fill(0);
   text("Slope: " + str(slope), width / 2, height - 50);
   text("Intercept: " + str(intercept), width / 2, height - 30);
   text("Angle: " + str(angle), width / 2, height - 10);
+  text("X: " + str(imageX), 50, height - 30);
+  text("Y: " + str(imageY), 50, height - 10);
 }
